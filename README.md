@@ -5,6 +5,25 @@ The app is designed to manage appointment scheduling for Clalit healthcare servi
 
 ---
 
+---
+
+## 🌗 Theme Support
+
+The app supports both **light** and **dark mode**.  
+The UI automatically adapts based on the user's system preferences or manual theme selection via context and theme hooks.
+
+---
+
+## 🌍 Multilingual Support
+
+This project is fully **internationalized** and currently supports:
+
+- 🇺🇸 **English**
+- 🇮🇱 **Hebrew**
+
+Translations are managed using the `translations/` directory and accessed via the custom `useTranslation` hook.  
+Adding additional languages is straightforward – simply extend the translation files and update the logic in the hook.
+
 ## 🚀 Getting Started
 
 ### 1. 📦 Clone the repository
@@ -102,6 +121,18 @@ Arkadi Ziv
 
 This project is licensed under the MIT License.
 
+![LoginScreen-Dark](./assets/image-1.png)
 
+![LoginScreen-Light](./assets/image-2.png)
 
-![alt text](image.png)
+![Menu](./assets/image-3.png)
+
+![MainScreen-Dark](./assets/image-4.png)
+
+![MainScreen-Light](./assets/image-5.png)
+
+![BookingScreen-Dark](./assets/image-6.png)
+
+![DoctorCalendarScreen-Dark](./assets/image-7.png)
+
+![DoctorCalendarScreen-Darck](./assets/image-8.png)
