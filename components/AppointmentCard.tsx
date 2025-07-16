@@ -98,13 +98,13 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       alignItems: 'center',
     },
     updateButton: {
-      backgroundColor: theme.colors.warning, // רקע כתום
+      backgroundColor: theme.colors.warning,
     },
     cancelButton: {
-      backgroundColor: theme.colors.error, // רקע אדום
+      backgroundColor: theme.colors.error, 
     },
     buttonText: {
-      color: 'white', // טקסט לבן
+      color: 'white',
       fontWeight: theme.typography.fontWeight.bold,
       fontSize: theme.typography.fontSize.md,
     },

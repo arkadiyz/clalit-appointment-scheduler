@@ -12,10 +12,6 @@ const AppWithTheme: React.FC = () => {
 
   return (
     <SafeAreaProvider>
-      {/* <StatusBar
-        style={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={isDarkMode ? '#1a1a1a' : '#3498db'}
-      /> */}
       <StatusBar style={isDarkMode ? 'light' : 'dark'} />
       <AppNavigator />
     </SafeAreaProvider>
