@@ -5,8 +5,6 @@ The app is designed to manage appointment scheduling for Clalit healthcare servi
 
 ---
 
----
-
 ## 🌗 Theme Support
 
 The app supports both **light** and **dark mode**.  
