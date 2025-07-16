@@ -13,6 +13,8 @@ export interface Theme {
     success: string;
     warning: string;
     shadow: string;
+    rgba_wite: string;
+    black: string;
   };
   spacing: {
     xs: number;
@@ -61,6 +63,8 @@ export const lightTheme: Theme = {
     success: '#2ecc71',
     warning: '#f39c12',
     shadow: 'rgba(0, 0, 0, 0.1)',
+    rgba_wite: 'rgba(255, 255, 255, 0.9)',
+    black: 'rgba(0, 0, 0, 0.5)',
   },
   spacing: {
     xs: 4,
@@ -110,5 +114,7 @@ export const darkTheme: Theme = {
     success: '#2ecc71',
     warning: '#f39c12',
     shadow: 'rgba(255, 255, 255, 0.1)',
+    rgba_wite: 'rgba(255, 255, 255, 0.9)',
+    black: 'rgba(0, 0, 0, 0.5)',
   },
 };

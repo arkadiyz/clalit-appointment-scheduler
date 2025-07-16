@@ -99,7 +99,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
   StyleSheet.create({
     modalOverlay: {
       flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: theme.colors.black,
     },
     modalBackground: {
       position: 'absolute',
@@ -156,7 +156,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
     },
     userName: {
       fontSize: theme.typography.fontSize.md,
-      color: 'rgba(255, 255, 255, 0.9)',
+      color: theme.colors.rgba_wite,
     },
     closeButton: {
       position: 'absolute',
@@ -164,7 +164,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       width: 30,
       height: 30,
       borderRadius: 15,
-      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      backgroundColor: theme.colors.shadow,
       justifyContent: 'center',
       alignItems: 'center',
       zIndex: 1,
@@ -174,8 +174,8 @@ const createStyles = (theme: any, _isRTL: boolean) =>
     },
     closeButtonText: {
       color: 'white',
-      fontSize: 18,
-      fontWeight: 'bold',
+      fontSize: theme.typography.fontSize.lg, //18
+      fontWeight: theme.typography.fontWeight.bold, // 'bold',
     },
     menuContent: {
       flex: 1,
@@ -211,7 +211,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       flexDirection: 'row-reverse',
     },
     menuIcon: {
-      fontSize: 20,
+      fontSize: theme.typography.fontSize.xl, //24
       width: 30,
       textAlign: 'center',
       color: theme.colors.primary,
@@ -249,11 +249,11 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       flexDirection: 'row-reverse',
     },
     logoutIcon: {
-      fontSize: 18,
-      color: 'white',
+      fontSize: theme.typography.fontSize.lg, //18,
+      color: theme.colors.background,
     },
     logoutText: {
-      color: 'white',
+      color: theme.colors.background,
       fontSize: theme.typography.fontSize.md,
       fontWeight: theme.typography.fontWeight.bold,
       marginLeft: theme.spacing.sm,
