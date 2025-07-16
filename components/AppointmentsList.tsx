@@ -9,7 +9,7 @@ interface Props {
   appointments: Appointment[];
   currentAppointment: Appointment | null;
   onBookNew: () => void;
-  onManage: () => void;
+  onManage: (appointment: Appointment) => void;
   onCancel: (id: string) => void;
 }
 

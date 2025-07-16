@@ -33,7 +33,7 @@ export interface Translation {
     noActiveAppointment: string;
     noAppointmentDescription: string;
     bookNewAppointment: string;
-    updateAppointment: string;
+    manageAppointment: string;
     cancelAppointment: string;
     appointmentCanceled: string;
     additionalAppointments: string;
@@ -132,7 +132,7 @@ export const hebrewTranslation: Translation = {
     noActiveAppointment: 'אין לך תור פעיל',
     noAppointmentDescription: 'לחץ על הכפתור למטה כדי לזמן תור חדש',
     bookNewAppointment: 'זמן תור חדש',
-    updateAppointment: 'עדכן תור',
+    manageAppointment: 'נהל תור',
     cancelAppointment: 'בטל תור',
     appointmentCanceled: 'התור בוטל בהצלחה',
     additionalAppointments: 'תורים נוספים',
@@ -230,9 +230,9 @@ export const englishTranslation: Translation = {
     upcomingAppointment: 'Your Upcoming Appointment',
     noActiveAppointment: 'No Active Appointment',
     noAppointmentDescription: 'Click the button below to book a new appointment',
-    bookNewAppointment: 'Book New Appointment',
-    updateAppointment: 'Update Appointment',
-    cancelAppointment: 'Cancel Appointment',
+    bookNewAppointment: 'New Appointment',
+    manageAppointment: 'Manage',
+    cancelAppointment: 'Cancel',
     appointmentCanceled: 'Appointment canceled successfully',
     additionalAppointments: 'Additional Appointments',
   },

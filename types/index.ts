@@ -48,7 +48,7 @@ export type RootStackParamList = {
   DoctorCalendar: { specialty: string };
   AppointmentSummary: { appointment: Appointment };
   RootStackParamList: undefined;
-  ManageAppointment: undefined;
+  ManageAppointment: { appointment: Appointment };
 };
 
 export interface CustomAlertButton {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface InfoItem {
   label: string;
@@ -14,7 +15,8 @@ interface InfoCardProps {
 
 const InfoCard: React.FC<InfoCardProps> = ({ items }) => {
   const { theme } = useTheme();
-  const styles = createStyles(theme);
+  const { t, isRTL } = useTranslation();
+  const styles = createStyles(theme, isRTL);
 
   return (
     <View style={styles.card}>
@@ -28,9 +30,10 @@ const InfoCard: React.FC<InfoCardProps> = ({ items }) => {
   );
 };
 
-const createStyles = (theme: any) =>
+const createStyles = (theme: any, _isRTL: boolean) =>
   StyleSheet.create({
     card: {
+      direction: _isRTL ? 'rtl' : 'ltr',
       backgroundColor: theme.colors.card,
       padding: theme.spacing.lg,
       borderRadius: theme.borderRadius.large,

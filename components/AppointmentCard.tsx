@@ -7,7 +7,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 interface Props {
   appointment: Appointment;
   isMain?: boolean;
-  onUpdate: () => void;
+  onUpdate: (appointment: Appointment) => void;
   onCancel: (id: string) => void;
 }
 
@@ -38,8 +38,8 @@ const AppointmentCard: React.FC<Props> = (props) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.actionButton, styles.updateButton]} onPress={onUpdate}>
-          <Text style={styles.buttonText}>{t.main.updateAppointment}</Text>
+        <TouchableOpacity style={[styles.actionButton, styles.updateButton]} onPress={() => onUpdate(appointment)}>
+          <Text style={styles.buttonText}>{t.main.manageAppointment}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.actionButton, styles.cancelButton]} onPress={() => onCancel(appointment.id)}>
@@ -50,7 +50,7 @@ const AppointmentCard: React.FC<Props> = (props) => {
   );
 };
 
-const createStyles = (theme: any, isRTL: boolean) =>
+const createStyles = (theme: any, _isRTL: boolean) =>
   StyleSheet.create({
     appointmentCard: {
       backgroundColor: theme.colors.card,
@@ -64,6 +64,7 @@ const createStyles = (theme: any, isRTL: boolean) =>
       elevation: 3,
       borderWidth: 1,
       borderColor: theme.colors.border,
+      direction: _isRTL ? 'rtl' : 'ltr',
     },
     mainAppointmentCard: {
       borderColor: theme.colors.primary,
@@ -82,7 +83,7 @@ const createStyles = (theme: any, isRTL: boolean) =>
     detailText: {
       fontSize: theme.typography.fontSize.md,
       marginBottom: theme.spacing.xs,
-      textAlign: isRTL ? 'right' : 'left',
+      direction: _isRTL ? 'rtl' : 'ltr',
       color: theme.colors.text,
     },
     buttonContainer: {
@@ -97,13 +98,13 @@ const createStyles = (theme: any, isRTL: boolean) =>
       alignItems: 'center',
     },
     updateButton: {
-      backgroundColor: theme.colors.warning,
+      backgroundColor: theme.colors.warning, // רקע כתום
     },
     cancelButton: {
-      backgroundColor: theme.colors.error,
+      backgroundColor: theme.colors.error, // רקע אדום
     },
     buttonText: {
-      color: 'white',
+      color: 'white', // טקסט לבן
       fontWeight: theme.typography.fontWeight.bold,
       fontSize: theme.typography.fontSize.md,
     },

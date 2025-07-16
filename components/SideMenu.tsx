@@ -11,23 +11,13 @@ interface Props {
   getTransformValue: () => Animated.AnimatedInterpolation<string | number>;
   onClose: () => void;
   onBookNew: () => void;
-  onManage: () => void;
   onLogout: () => void;
   onToggleTheme: () => void;
   onToggleLanguage: () => void;
 }
 
-const SideMenu: React.FC<Props> = ({
-  isVisible,
-  slideAnim,
-  getTransformValue,
-  onClose,
-  onBookNew,
-  onManage,
-  onLogout,
-  onToggleTheme,
-  onToggleLanguage,
-}) => {
+const SideMenu: React.FC<Props> = (props) => {
+  const { isVisible, slideAnim, getTransformValue, onClose, onBookNew, onLogout, onToggleTheme, onToggleLanguage } = props;
   const { t, currentLanguage, isRTL } = useTranslation();
   const { theme, isDarkMode } = useTheme();
   const { user } = useSelector((state: RootState) => state.app);
@@ -51,9 +41,9 @@ const SideMenu: React.FC<Props> = ({
           <SafeAreaView style={styles.menuContainer}>
             {/* כותרת התפריט */}
             <View style={styles.menuHeader}>
-              <TouchableOpacity style={[styles.closeButton, isRTL && styles.closeButtonRTL]} onPress={onClose}>
+              {/* <TouchableOpacity style={[styles.closeButton, isRTL && styles.closeButtonRTL]} onPress={onClose}>
                 <Text style={styles.closeButtonText}>✕</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <Text style={[styles.appTitle, isRTL && styles.textRTL]}>{t.main.systemTitle}</Text>
               <Text style={[styles.userName, isRTL && styles.textRTL]}>
                 {t.main.welcome} {user?.username}
@@ -68,11 +58,6 @@ const SideMenu: React.FC<Props> = ({
                 <TouchableOpacity style={[styles.menuItem, isRTL && styles.menuItemRTL]} onPress={onBookNew}>
                   <Text style={[styles.menuIcon, isRTL && styles.iconRTL]}>📅</Text>
                   <Text style={[styles.menuText, isRTL && styles.textRTL]}>{t.main.bookNewAppointment}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={[styles.menuItem, isRTL && styles.menuItemRTL]} onPress={onManage}>
-                  <Text style={[styles.menuIcon, isRTL && styles.iconRTL]}>⚙️</Text>
-                  <Text style={[styles.menuText, isRTL && styles.textRTL]}>{t.manage.manageAppointment}</Text>
                 </TouchableOpacity>
               </View>
 

@@ -45,7 +45,9 @@ const BookingScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.subtitle}>{t.booking.selectSpecialtyDescription}</Text>
 
         <ScrollView contentContainerStyle={styles.listContainer} showsVerticalScrollIndicator={false}>
-          {medicalSpecialties.map((item) => renderSpecialtyItem({ item }))}
+          {medicalSpecialties.map((item, index) => (
+            <View key={index}>{renderSpecialtyItem({ item })}</View>
+          ))}
         </ScrollView>
       </View>
     </SafeAreaView>

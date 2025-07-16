@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../redux/store';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../redux/store';
 import { cancelAppointment, selectSpecialty } from '../redux/slices/appSlice';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../types';
 import { useTheme } from '../hooks/useTheme';
 import CustomAlert from '../components/CustomAlert';
@@ -13,32 +14,37 @@ import AppHeader from '../components/AppHeader';
 import InfoCard from '../components/InfoCard';
 
 type ManageAppointmentNavigationProp = StackNavigationProp<RootStackParamList, 'ManageAppointment'>;
+type ManageAppointmentRouteProp = RouteProp<RootStackParamList, 'ManageAppointment'>;
 
 interface Props {
   navigation: ManageAppointmentNavigationProp;
+  route: ManageAppointmentRouteProp;
 }
 
-const ManageAppointmentScreen: React.FC<Props> = (props) => {
-  const { navigation } = props;
+const ManageAppointmentScreen: React.FC<Props> = ({ navigation, route }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { currentAppointment } = useSelector((state: RootState) => state.app);
   const { theme } = useTheme();
   const { alertConfig, isVisible, showAlert, hideAlert } = useCustomAlert();
   const { t, isRTL } = useTranslation();
   const styles = createStyles(theme, isRTL);
 
-  console.log('--------------------------- ManageAppointmentScreen ---------------------------');
+  // קבל את התור הספציפי מה-navigation parameters
+  const appointment = route.params?.appointment;
+
+  console.log('--------------------------- ManageAppointmentScreen ---------------------------', appointment);
 
   const handleUpdateAppointment = () => {
-    if (!currentAppointment) return;
+    if (!appointment) return;
 
-    dispatch(selectSpecialty(currentAppointment.specialty));
+    dispatch(selectSpecialty(appointment.specialty));
     navigation.navigate('DoctorCalendar', {
-      specialty: currentAppointment.specialty,
+      specialty: appointment.specialty,
     });
   };
 
   const handleCancelAppointment = () => {
+    if (!appointment) return;
+
     showAlert({
       title: t.manage.cancelConfirmTitle,
       message: t.manage.cancelConfirmMessage,
@@ -48,7 +54,7 @@ const ManageAppointmentScreen: React.FC<Props> = (props) => {
           text: t.common.confirm,
           style: 'destructive',
           onPress: () => {
-            dispatch(cancelAppointment());
+            dispatch(cancelAppointment(appointment.id));
             showAlert({
               title: t.manage.appointmentCanceledTitle,
               message: t.manage.appointmentCanceledMessage,
@@ -65,7 +71,7 @@ const ManageAppointmentScreen: React.FC<Props> = (props) => {
     });
   };
 
-  if (!currentAppointment) {
+  if (!appointment) {
     return (
       <SafeAreaView style={styles.container}>
         <AppHeader title={t.manage.manageAppointment} onBackPress={() => navigation.goBack()} />
@@ -79,10 +85,10 @@ const ManageAppointmentScreen: React.FC<Props> = (props) => {
   }
 
   const appointmentItems = [
-    { label: t.appointment.specialty, value: currentAppointment.specialty },
-    { label: t.appointment.doctorName, value: currentAppointment.doctorName },
-    { label: t.appointment.date, value: currentAppointment.date },
-    { label: t.appointment.time, value: currentAppointment.time },
+    { label: t.appointment.specialty, value: appointment.specialty },
+    { label: t.appointment.doctorName, value: appointment.doctorName },
+    { label: t.appointment.date, value: appointment.date },
+    { label: t.appointment.time, value: appointment.time },
     {
       label: t.appointment.status,
       value: t.appointment.active,
@@ -93,39 +99,46 @@ const ManageAppointmentScreen: React.FC<Props> = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <AppHeader title={t.manage.manageAppointment} onBackPress={() => navigation.goBack()} />
+      <ScrollView>
+        <View style={styles.content}>
+          <Text style={styles.title}>{t.manage.currentAppointmentDetails}</Text>
 
-      <View style={styles.content}>
-        <Text style={styles.title}>{t.manage.currentAppointmentDetails}</Text>
+          <InfoCard items={appointmentItems} />
 
-        <InfoCard items={appointmentItems} />
+          <View style={styles.actionsContainer}>
+            <Text style={styles.actionsTitle}>{t.manage.availableActions}</Text>
 
-        <View style={styles.actionsContainer}>
-          <Text style={styles.actionsTitle}>{t.manage.availableActions}</Text>
+            <TouchableOpacity style={[styles.actionButton]} onPress={handleUpdateAppointment}>
+              <View style={styles.updateColorBorder} />
+              <View style={styles.buttonContent}>
+                <Text style={styles.actionButtonText}>{t.manage.updateAppointmentAction}</Text>
+                <Text style={styles.actionButtonSubtext}>{t.manage.updateDescription}</Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.actionButton, styles.updateButton]} onPress={handleUpdateAppointment}>
-            <Text style={styles.actionButtonText}>{t.manage.updateAppointmentAction}</Text>
-            <Text style={styles.actionButtonSubtext}>{t.manage.updateDescription}</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={[styles.actionButton]} onPress={handleCancelAppointment}>
+              <View style={styles.cancelColorBorder} />
+              <View style={styles.buttonContent}>
+                <Text style={styles.actionButtonText}>{t.manage.cancelAppointmentAction}</Text>
+                <Text style={styles.actionButtonSubtext}>{t.manage.cancelDescription}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity style={[styles.actionButton, styles.cancelButton]} onPress={handleCancelAppointment}>
-            <Text style={styles.actionButtonText}>{t.manage.cancelAppointmentAction}</Text>
-            <Text style={styles.actionButtonSubtext}>{t.manage.cancelDescription}</Text>
-          </TouchableOpacity>
+          <View style={styles.infoBox}>
+            <Text style={styles.infoTitle}>{t.manage.note}</Text>
+            <Text style={styles.infoText}>{t.manage.noteDescription}</Text>
+          </View>
         </View>
 
-        <View style={styles.infoBox}>
-          <Text style={styles.infoTitle}>{t.manage.note}</Text>
-          <Text style={styles.infoText}>{t.manage.noteDescription}</Text>
-        </View>
-      </View>
-
-      <CustomAlert
-        visible={isVisible}
-        title={alertConfig?.title || ''}
-        message={alertConfig?.message}
-        buttons={alertConfig?.buttons || []}
-        onDismiss={hideAlert}
-      />
+        <CustomAlert
+          visible={isVisible}
+          title={alertConfig?.title || ''}
+          message={alertConfig?.message}
+          buttons={alertConfig?.buttons || []}
+          onDismiss={hideAlert}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -170,25 +183,20 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       shadowOpacity: 0.1,
       shadowRadius: 4,
       elevation: 3,
-      borderLeftWidth: 4,
       borderWidth: 1,
       borderColor: theme.colors.border,
-    },
-    updateButton: {
-      borderLeftColor: theme.colors.warning,
-    },
-    cancelButton: {
-      borderLeftColor: theme.colors.error,
     },
     actionButtonText: {
       fontSize: theme.typography.fontSize.lg,
       fontWeight: theme.typography.fontWeight.bold,
       color: theme.colors.text,
       marginBottom: theme.spacing.xs,
+      textAlign: _isRTL ? 'right' : 'left',
     },
     actionButtonSubtext: {
       fontSize: theme.typography.fontSize.sm,
       color: theme.colors.textSecondary,
+      textAlign: _isRTL ? 'right' : 'left',
     },
     infoBox: {
       backgroundColor: theme.colors.surface,
@@ -220,6 +228,35 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       fontSize: theme.typography.fontSize.lg,
       color: theme.colors.textSecondary,
       textAlign: 'center',
+    },
+    buttonContent: {
+      flex: 1,
+    },
+    updateColorBorder: {
+      position: 'absolute',
+      left: _isRTL ? undefined : 0,
+      right: _isRTL ? 0 : undefined,
+      top: 0,
+      bottom: 0,
+      width: 6,
+      backgroundColor: '#FFA500',
+      borderTopLeftRadius: _isRTL ? 0 : theme.borderRadius.medium,
+      borderBottomLeftRadius: _isRTL ? 0 : theme.borderRadius.medium,
+      borderTopRightRadius: _isRTL ? theme.borderRadius.medium : 0,
+      borderBottomRightRadius: _isRTL ? theme.borderRadius.medium : 0,
+    },
+    cancelColorBorder: {
+      position: 'absolute',
+      left: _isRTL ? undefined : 0,
+      right: _isRTL ? 0 : undefined,
+      top: 0,
+      bottom: 0,
+      width: 6,
+      backgroundColor: '#FF4444',
+      borderTopLeftRadius: _isRTL ? 0 : theme.borderRadius.medium,
+      borderBottomLeftRadius: _isRTL ? 0 : theme.borderRadius.medium,
+      borderTopRightRadius: _isRTL ? theme.borderRadius.medium : 0,
+      borderBottomRightRadius: _isRTL ? theme.borderRadius.medium : 0,
     },
   });
 export default ManageAppointmentScreen;

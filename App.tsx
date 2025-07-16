@@ -7,7 +7,6 @@ import AppNavigator from './navigation/AppNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from './components/ThemeProvider';
 
-// קומפוננט פנימי שיש לו גישה ל-Redux
 const AppWithTheme: React.FC = () => {
   const isDarkMode = useSelector((state: RootState) => state.app.isDarkMode);
 

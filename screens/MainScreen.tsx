@@ -65,7 +65,6 @@ const MainScreen: React.FC<Props> = ({ navigation }) => {
           getTransformValue={getTransformValue}
           onClose={closeMenu}
           onBookNew={handleBookNewAppointment}
-          onManage={handleManageAppointment}
           onLogout={handleLogout}
           onToggleTheme={handleToggleTheme}
           onToggleLanguage={handleToggleLanguage}

@@ -4,7 +4,7 @@ import { Animated, Dimensions } from 'react-native';
 import { RootState, AppDispatch } from '../redux/store';
 import { cancelAppointment, logoutUser, toggleTheme, setLanguage } from '../redux/slices/appSlice';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types';
+import { RootStackParamList, Appointment } from '../types';
 import { useCustomAlert } from '../hooks/useCustomAlert';
 import { useTranslation } from './useTranslation';
 
@@ -56,9 +56,9 @@ export const useMainScreen = (navigation: MainScreenNavigationProp) => {
     navigation.navigate('BookingScreen');
   };
 
-  const handleManageAppointment = () => {
+  const handleManageAppointment = (appointment: Appointment) => {
     setIsMenuVisible(false);
-    navigation.navigate('ManageAppointment');
+    navigation.navigate('ManageAppointment', { appointment });
   };
 
   const handleCancelAppointment = (appointmentId?: string) => {
