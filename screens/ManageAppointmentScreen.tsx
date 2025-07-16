@@ -9,6 +9,8 @@ import { useTheme } from '../hooks/useTheme';
 import CustomAlert from '../components/CustomAlert';
 import { useCustomAlert } from '../hooks/useCustomAlert';
 import { useTranslation } from '../hooks/useTranslation';
+import AppHeader from '../components/AppHeader';
+import InfoCard from '../components/InfoCard';
 
 type ManageAppointmentNavigationProp = StackNavigationProp<RootStackParamList, 'ManageAppointment'>;
 
@@ -31,9 +33,9 @@ const ManageAppointmentScreen: React.FC<Props> = (props) => {
     if (!currentAppointment) return;
 
     dispatch(selectSpecialty(currentAppointment.specialty));
-    //   navigation.navigate('ManageAppointment', {
-    //     specialty: currentAppointment.specialty,
-    //   });
+    navigation.navigate('DoctorCalendar', {
+      specialty: currentAppointment.specialty,
+    });
   };
 
   const handleCancelAppointment = () => {
@@ -63,20 +65,10 @@ const ManageAppointmentScreen: React.FC<Props> = (props) => {
     });
   };
 
-  // TODO FIX THIS SECTION DUPLICATE CODE
   if (!currentAppointment) {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-            <Text style={styles.backButtonText}>
-              {isRTL ? '← ' : '← '}
-              {t.common.back}
-            </Text>
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>{t.manage.manageAppointment}</Text>
-        </View>
-
+        <AppHeader title={t.manage.manageAppointment} onBackPress={() => navigation.goBack()} />
         <View style={styles.content}>
           <View style={styles.noAppointmentContainer}>
             <Text style={styles.noAppointmentText}>{t.manage.noAppointmentToManage}</Text>
@@ -86,47 +78,26 @@ const ManageAppointmentScreen: React.FC<Props> = (props) => {
     );
   }
 
+  const appointmentItems = [
+    { label: t.appointment.specialty, value: currentAppointment.specialty },
+    { label: t.appointment.doctorName, value: currentAppointment.doctorName },
+    { label: t.appointment.date, value: currentAppointment.date },
+    { label: t.appointment.time, value: currentAppointment.time },
+    {
+      label: t.appointment.status,
+      value: t.appointment.active,
+      valueStyle: styles.activeStatus,
+    },
+  ];
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.backButtonText}>
-            {isRTL ? '← ' : '← '}
-            {t.common.back}
-          </Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{t.manage.manageAppointment}</Text>
-      </View>
+      <AppHeader title={t.manage.manageAppointment} onBackPress={() => navigation.goBack()} />
 
       <View style={styles.content}>
         <Text style={styles.title}>{t.manage.currentAppointmentDetails}</Text>
 
-        <View style={styles.appointmentCard}>
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>{t.appointment.specialty}:</Text>
-            <Text style={styles.value}>{currentAppointment.specialty}</Text>
-          </View>
-
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>{t.appointment.doctorName}:</Text>
-            <Text style={styles.value}>{currentAppointment.doctorName}</Text>
-          </View>
-
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>{t.appointment.date}:</Text>
-            <Text style={styles.value}>{currentAppointment.date}</Text>
-          </View>
-
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>{t.appointment.time}:</Text>
-            <Text style={styles.value}>{currentAppointment.time}</Text>
-          </View>
-
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>{t.appointment.status}:</Text>
-            <Text style={[styles.value, styles.activeStatus]}>{t.appointment.active}</Text>
-          </View>
-        </View>
+        <InfoCard items={appointmentItems} />
 
         <View style={styles.actionsContainer}>
           <Text style={styles.actionsTitle}>{t.manage.availableActions}</Text>
@@ -165,32 +136,6 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       flex: 1,
       backgroundColor: theme.colors.background,
     },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: theme.spacing.lg,
-      backgroundColor: theme.colors.card,
-      borderBottomWidth: 1,
-      borderBottomColor: theme.colors.border,
-      shadowColor: theme.colors.shadow,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
-    },
-    backButton: {
-      marginRight: theme.spacing.md,
-    },
-    backButtonText: {
-      fontSize: theme.typography.fontSize.md,
-      color: theme.colors.primary,
-      fontWeight: theme.typography.fontWeight.bold,
-    },
-    headerTitle: {
-      fontSize: theme.typography.fontSize.lg,
-      fontWeight: theme.typography.fontWeight.bold,
-      color: theme.colors.text,
-    },
     content: {
       flex: 1,
       padding: theme.spacing.lg,
@@ -201,37 +146,6 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       textAlign: 'center',
       marginBottom: theme.spacing.xl,
       color: theme.colors.text,
-    },
-    appointmentCard: {
-      backgroundColor: theme.colors.card,
-      padding: theme.spacing.lg,
-      borderRadius: theme.borderRadius.large,
-      marginBottom: theme.spacing.xl,
-      shadowColor: theme.colors.shadow,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
-      borderWidth: 1,
-      borderColor: theme.colors.border,
-    },
-    detailRow: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: theme.spacing.md,
-      paddingBottom: theme.spacing.sm,
-      borderBottomWidth: 1,
-      borderBottomColor: theme.colors.border,
-    },
-    label: {
-      fontSize: theme.typography.fontSize.md,
-      fontWeight: theme.typography.fontWeight.bold,
-      color: theme.colors.textSecondary,
-    },
-    value: {
-      fontSize: theme.typography.fontSize.md,
-      color: theme.colors.text,
-      fontWeight: theme.typography.fontWeight.medium,
     },
     activeStatus: {
       color: theme.colors.success,

@@ -7,7 +7,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import { useTheme } from '../hooks/useTheme';
 import { useTranslation } from '../hooks/useTranslation';
-import { medicalSpecialties } from '../utils/mockData';
+import { medicalSpecialties, getSpecialtyTranslation } from '../utils/mockData';
+import AppHeader from '../components/AppHeader';
 
 type BookingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'BookingScreen'>;
 
@@ -26,23 +27,9 @@ const BookingScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate('DoctorCalendar', { specialty });
   };
 
-  // תרגום המקצועות הרפואיים
-  const getSpecialtyTranslation = (specialty: string) => {
-    switch (specialty) {
-      case 'רפואה משפחה':
-        return t.specialties.familyMedicine;
-      case 'רופא עור':
-        return t.specialties.dermatology;
-      case 'רופאת נשים':
-        return t.specialties.gynecology;
-      default:
-        return specialty;
-    }
-  };
-
   const renderSpecialtyItem = ({ item }: { item: string }) => (
     <TouchableOpacity style={styles.specialtyCard} onPress={() => handleSpecialtySelect(item)}>
-      <Text style={styles.specialtyText}>{getSpecialtyTranslation(item)}</Text>
+      <Text style={styles.specialtyText}>{getSpecialtyTranslation(item, t)}</Text>
       <Text style={styles.arrowText}>{isRTL ? '←' : '→'}</Text>
     </TouchableOpacity>
   );
@@ -51,15 +38,7 @@ const BookingScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Text style={styles.backButtonText}>
-            {isRTL ? '← ' : '← '}
-            {t.common.back}
-          </Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{t.booking.newAppointmentTitle}</Text>
-      </View>
+      <AppHeader title={t.booking.newAppointmentTitle} onBackPress={() => navigation.goBack()} />
 
       <View style={styles.content}>
         <Text style={styles.title}>{t.booking.selectSpecialty}</Text>
@@ -78,32 +57,6 @@ const createStyles = (theme: any, isRTL: boolean) =>
     container: {
       flex: 1,
       backgroundColor: theme.colors.background,
-    },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: theme.spacing.lg,
-      backgroundColor: theme.colors.card,
-      borderBottomWidth: 1,
-      borderBottomColor: theme.colors.border,
-      shadowColor: theme.colors.shadow,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
-    },
-    backButton: {
-      marginRight: theme.spacing.md,
-    },
-    backButtonText: {
-      fontSize: theme.typography.fontSize.md,
-      color: theme.colors.primary,
-      fontWeight: theme.typography.fontWeight.bold,
-    },
-    headerTitle: {
-      fontSize: theme.typography.fontSize.lg,
-      fontWeight: theme.typography.fontWeight.bold,
-      color: theme.colors.text,
     },
     content: {
       flex: 1,

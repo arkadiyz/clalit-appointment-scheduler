@@ -47,6 +47,7 @@ export type RootStackParamList = {
   BookingScreen: undefined;
   DoctorCalendar: { specialty: string };
   AppointmentSummary: { appointment: Appointment };
+  RootStackParamList: undefined;
   ManageAppointment: undefined;
 };
 

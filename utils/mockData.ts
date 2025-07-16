@@ -1,4 +1,5 @@
 import { Doctor, TimeSlot } from '../types';
+import { Translation } from '../translations';
 
 export const mockTimeSlots: TimeSlot[] = [
   // רפואה משפחה - 15/07/2025
@@ -62,6 +63,20 @@ export const mockDoctors: Doctor[] = [
     availableSlots: mockTimeSlots.filter((slot) => slot.date === '19/07/2025' || slot.date === '20/07/2025'),
   },
 ];
+
+// פונקציית תרגום מרכזית למקצועות רפואיים
+export const getSpecialtyTranslation = (specialty: string, t: Translation): string => {
+  switch (specialty) {
+    case 'רפואה משפחה':
+      return t.specialties.familyMedicine;
+    case 'רופא עור':
+      return t.specialties.dermatology;
+    case 'רופאת נשים':
+      return t.specialties.gynecology;
+    default:
+      return specialty;
+  }
+};
 
 // פונקציות עזר
 export const getDoctorBySpecialty = (specialty: string): Doctor | undefined => {
