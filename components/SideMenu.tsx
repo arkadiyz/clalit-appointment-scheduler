@@ -151,7 +151,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
     appTitle: {
       fontSize: theme.typography.fontSize.lg,
       fontWeight: theme.typography.fontWeight.bold,
-      color: 'white',
+      color: theme.colors.surface,
       marginBottom: theme.spacing.xs,
     },
     userName: {
@@ -173,7 +173,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       left: theme.spacing.lg,
     },
     closeButtonText: {
-      color: 'white',
+      color: theme.colors.surface, 
       fontSize: theme.typography.fontSize.lg, //18
       fontWeight: theme.typography.fontWeight.bold, // 'bold',
     },

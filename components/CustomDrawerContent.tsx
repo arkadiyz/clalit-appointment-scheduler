@@ -113,13 +113,13 @@ const createStyles = (theme: any, isRTL: boolean) =>
     appTitle: {
       fontSize: theme.typography.fontSize.lg,
       fontWeight: theme.typography.fontWeight.bold,
-      color: 'white',
+      color: theme.colors.surface,
       marginBottom: theme.spacing.sm,
       textAlign: isRTL ? 'right' : 'left',
     },
     userName: {
       fontSize: theme.typography.fontSize.md,
-      color: 'rgba(255, 255, 255, 0.9)',
+      color: theme.colors.rgba_wite,
       textAlign: isRTL ? 'right' : 'left',
     },
     menuSection: {
@@ -172,7 +172,7 @@ const createStyles = (theme: any, isRTL: boolean) =>
     },
     logoutText: {
       fontSize: theme.typography.fontSize.md,
-      color: 'white',
+      color: theme.colors.surface,
       fontWeight: theme.typography.fontWeight.bold,
       textAlign: isRTL ? 'right' : 'left',
     },

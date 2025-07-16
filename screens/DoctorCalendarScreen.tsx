@@ -249,7 +249,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       color: theme.colors.text,
     },
     selectedTimeText: {
-      color: 'white',
+      color: theme.colors.surface, 
     },
     selectedInfo: {
       backgroundColor: theme.colors.card,
@@ -284,7 +284,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       elevation: 5,
     },
     bookButtonText: {
-      color: 'white',
+      color: theme.colors.surface,
       fontSize: theme.typography.fontSize.lg,
       fontWeight: theme.typography.fontWeight.bold,
     },

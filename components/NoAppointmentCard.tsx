@@ -63,7 +63,7 @@ const createStyles = (theme: any) =>
       elevation: 5,
     },
     bookButtonText: {
-      color: 'white',
+      color: theme.colors.surface, // החלפת 'white' בצבע מהנושא
       fontSize: theme.typography.fontSize.lg,
       fontWeight: theme.typography.fontWeight.bold,
     },

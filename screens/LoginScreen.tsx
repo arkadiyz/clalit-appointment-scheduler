@@ -167,7 +167,7 @@ const createStyles = (theme: any, isRTL: boolean) =>
       elevation: 5,
     },
     loginButtonText: {
-      color: 'white',
+      color: theme.colors.surface,
       fontSize: theme.typography.fontSize.lg,
       fontWeight: theme.typography.fontWeight.bold,
       textAlign: 'center',

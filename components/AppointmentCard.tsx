@@ -104,7 +104,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       backgroundColor: theme.colors.error, 
     },
     buttonText: {
-      color: 'white',
+      color: theme.colors.surface, 
       fontWeight: theme.typography.fontWeight.bold,
       fontSize: theme.typography.fontSize.md,
     },

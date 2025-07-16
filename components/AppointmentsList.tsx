@@ -76,7 +76,7 @@ const createStyles = (theme: any) =>
       elevation: 5,
     },
     addAppointmentButtonText: {
-      color: 'white',
+      color: theme.colors.surface, 
       fontSize: theme.typography.fontSize.md,
       fontWeight: theme.typography.fontWeight.bold,
     },
