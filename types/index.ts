@@ -45,7 +45,11 @@ export type RootStackParamList = {
   Login: undefined;
   Main: undefined;
   BookingScreen: undefined;
-  DoctorCalendar: { specialty: string };
+  DoctorCalendar: {
+    specialty: string;
+    isUpdating?: boolean;
+    existingAppointment?: Appointment;
+  };
   AppointmentSummary: { appointment: Appointment };
   RootStackParamList: undefined;
   ManageAppointment: { appointment: Appointment };

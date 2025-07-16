@@ -61,7 +61,7 @@ const appSlice = createSlice({
       // מוסיף תור לרשימת התורים
       state.appointments.push(action.payload);
 
-      // עדכון התור הנוכחי להיות התור החדש
+      // עדכון התור הנוכחי להיות התור חדש
       state.currentAppointment = action.payload;
 
       // עדכון זמינות התור שנבחר
@@ -113,23 +113,36 @@ const appSlice = createSlice({
     },
 
     updateAppointment: (state, action: PayloadAction<Appointment>) => {
-      // ביטול התור הקודם
-      if (state.currentAppointment && state.selectedDoctor) {
-        const oldSlot = state.selectedDoctor.availableSlots.find(
-          (s) => s.date === state.currentAppointment!.date && s.time === state.currentAppointment!.time
-        );
-        if (oldSlot) {
-          oldSlot.isAvailable = true;
+      const updatedAppointment = action.payload;
+
+      // מציאת התור ברשימה ועדכונו
+      const appointmentIndex = state.appointments.findIndex((apt) => apt.id === updatedAppointment.id);
+
+      if (appointmentIndex !== -1) {
+        const oldAppointment = state.appointments[appointmentIndex];
+
+        // החזרת הזמינות לתור הישן
+        const oldDoctor = state.doctors.find((d) => d.name === oldAppointment.doctorName);
+        if (oldDoctor) {
+          const oldSlot = oldDoctor.availableSlots.find((s) => s.date === oldAppointment.date && s.time === oldAppointment.time);
+          if (oldSlot) {
+            oldSlot.isAvailable = true;
+          }
         }
-      }
 
-      // זימון התור החדש
-      state.currentAppointment = action.payload;
+        // עדכון התור ברשימה
+        state.appointments[appointmentIndex] = updatedAppointment;
 
-      if (state.selectedDoctor) {
-        const newSlot = state.selectedDoctor.availableSlots.find((s) => s.date === action.payload.date && s.time === action.payload.time);
-        if (newSlot) {
-          newSlot.isAvailable = false;
+        // עדכון התור הנוכחי
+        state.currentAppointment = updatedAppointment;
+
+        // סימון התור החדש כלא זמין
+        const newDoctor = state.doctors.find((d) => d.name === updatedAppointment.doctorName);
+        if (newDoctor) {
+          const newSlot = newDoctor.availableSlots.find((s) => s.date === updatedAppointment.date && s.time === updatedAppointment.time);
+          if (newSlot) {
+            newSlot.isAvailable = false;
+          }
         }
       }
     },

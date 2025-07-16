@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../redux/store';
-import { bookAppointment } from '../redux/slices/appSlice';
+import { bookAppointment, updateAppointment } from '../redux/slices/appSlice';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList, TimeSlot, Appointment } from '../types';
@@ -22,22 +22,25 @@ interface Props {
 }
 
 const DoctorCalendarScreen: React.FC<Props> = ({ navigation, route }) => {
-  const { specialty } = route.params;
+  const { specialty, isUpdating, existingAppointment } = route.params;
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.app);
   const { theme } = useTheme();
   const { alertConfig, isVisible, showAlert, hideAlert } = useCustomAlert();
   const { t, currentLanguage, isRTL } = useTranslation();
   const styles = createStyles(theme, isRTL);
+
   console.log('--------------------------- DoctorCalendarScreen ---------------------------');
+  console.log('isUpdating:', isUpdating);
+  console.log('existingAppointment:', existingAppointment);
 
   const doctor = getDoctorBySpecialty(specialty);
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
 
-  // console.log('DoctorCalendarScreen loaded:');
-  // console.log('specialty:', specialty);
-  // console.log('doctor found:', doctor);
-  // console.log('user:', user);
+  //   console.log('DoctorCalendarScreen loaded:');
+  //   console.log('specialty:', specialty);
+  //   console.log('doctor found:', doctor);
+  //   console.log('user:', user);
 
   const availableSlots = doctor?.availableSlots.filter((slot) => slot.isAvailable) || [];
 
@@ -59,11 +62,6 @@ const DoctorCalendarScreen: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const handleBookAppointment = () => {
-    // console.log('handleBookAppointment called');
-    // console.log('selectedSlot:', selectedSlot);
-    // console.log('doctor:', doctor);
-    // console.log('user:', user);
-
     if (!selectedSlot || !doctor || !user) {
       console.log('Missing data - showing error');
       showAlert({
@@ -74,20 +72,36 @@ const DoctorCalendarScreen: React.FC<Props> = ({ navigation, route }) => {
       return;
     }
 
-    console.log('Creating appointment...');
-    const appointment: Appointment = {
-      id: Date.now().toString(),
-      patientName: user.username,
-      doctorName: doctor.name,
-      specialty: doctor.specialty,
-      date: selectedSlot.date,
-      time: selectedSlot.time,
-      status: 'active',
-    };
+    if (isUpdating && existingAppointment) {
+      // עדכון תור קיים
+      console.log('Updating existing appointment...');
+      const updatedAppointment: Appointment = {
+        ...existingAppointment,
+        date: selectedSlot.date,
+        time: selectedSlot.time,
+      };
 
-    // console.log('Appointment created:', appointment);
-    dispatch(bookAppointment(appointment));
-    navigation.navigate('AppointmentSummary', { appointment });
+      console.log('Updated appointment:', updatedAppointment);
+      dispatch(updateAppointment(updatedAppointment));
+      navigation.navigate('AppointmentSummary', { appointment: updatedAppointment });
+    } else {
+      
+      // יצירת תור חדש
+      console.log('Creating new appointment...');
+      const appointment: Appointment = {
+        id: Date.now().toString(),
+        patientName: user.username,
+        doctorName: doctor.name,
+        specialty: doctor.specialty,
+        date: selectedSlot.date,
+        time: selectedSlot.time,
+        status: 'active',
+      };
+
+      console.log('New appointment created:', appointment);
+      dispatch(bookAppointment(appointment));
+      navigation.navigate('AppointmentSummary', { appointment });
+    }
   };
 
   const renderTimeSlot = ({ item }: { item: TimeSlot }) => (
@@ -249,7 +263,7 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       color: theme.colors.text,
     },
     selectedTimeText: {
-      color: theme.colors.surface, 
+      color: theme.colors.surface,
     },
     selectedInfo: {
       backgroundColor: theme.colors.card,

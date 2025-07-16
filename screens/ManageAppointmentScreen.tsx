@@ -28,7 +28,6 @@ const ManageAppointmentScreen: React.FC<Props> = ({ navigation, route }) => {
   const { t, isRTL } = useTranslation();
   const styles = createStyles(theme, isRTL);
 
-  // קבל את התור הספציפי מה-navigation parameters
   const appointment = route.params?.appointment;
 
   console.log('--------------------------- ManageAppointmentScreen ---------------------------', appointment);
@@ -39,6 +38,8 @@ const ManageAppointmentScreen: React.FC<Props> = ({ navigation, route }) => {
     dispatch(selectSpecialty(appointment.specialty));
     navigation.navigate('DoctorCalendar', {
       specialty: appointment.specialty,
+      isUpdating: true,
+      existingAppointment: appointment,
     });
   };
 
@@ -54,17 +55,10 @@ const ManageAppointmentScreen: React.FC<Props> = ({ navigation, route }) => {
           text: t.common.confirm,
           style: 'destructive',
           onPress: () => {
+            // ביטול התור
             dispatch(cancelAppointment(appointment.id));
-            showAlert({
-              title: t.manage.appointmentCanceledTitle,
-              message: t.manage.appointmentCanceledMessage,
-              buttons: [
-                {
-                  text: t.common.confirm,
-                  onPress: () => navigation.navigate('Main'),
-                },
-              ],
-            });
+            // חזרה למסך הראשי מיד
+            navigation.navigate('Main');
           },
         },
       ],
@@ -85,6 +79,7 @@ const ManageAppointmentScreen: React.FC<Props> = ({ navigation, route }) => {
   }
 
   const appointmentItems = [
+    { label: t.appointment.patientName, value: appointment.patientName },
     { label: t.appointment.specialty, value: appointment.specialty },
     { label: t.appointment.doctorName, value: appointment.doctorName },
     { label: t.appointment.date, value: appointment.date },

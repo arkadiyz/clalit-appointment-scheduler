@@ -19,7 +19,12 @@ const AppointmentSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
   const { appointment } = route.params;
   const { theme } = useTheme();
   const { t, isRTL } = useTranslation();
-  console.log('--------------------------- AppointmentSummaryScreen ---------------------------');
+  const styles = createStyles(theme, isRTL);
+
+  console.log('AppointmentSummaryScreen - appointment received:', appointment);
+  console.log('PatientName from appointment:', appointment.patientName);
+  console.log('PatientName type:', typeof appointment.patientName);
+  console.log('PatientName length:', appointment.patientName?.length);
 
   const handleBackToMain = () => {
     navigation.navigate('Main');
@@ -32,8 +37,6 @@ const AppointmentSummaryScreen: React.FC<Props> = ({ navigation, route }) => {
     { label: t.appointment.date, value: appointment.date },
     { label: t.appointment.time, value: appointment.time },
   ];
-
-  const styles = createStyles(theme, isRTL);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -141,7 +144,7 @@ const createStyles = (theme: any, isRTL: boolean) =>
       elevation: 5,
     },
     confirmButtonText: {
-      color: theme.colors.surface, 
+      color: theme.colors.surface,
       fontSize: theme.typography.fontSize.lg,
       fontWeight: theme.typography.fontWeight.bold,
     },

@@ -18,14 +18,19 @@ const InfoCard: React.FC<InfoCardProps> = ({ items }) => {
   const { t, isRTL } = useTranslation();
   const styles = createStyles(theme, isRTL);
 
+  console.log('InfoCardqqqq - items received:', items);
+
   return (
     <View style={styles.card}>
-      {items.map((item, index) => (
-        <View key={index} style={styles.detailRow}>
-          <Text style={styles.label}>{item.label}:</Text>
-          <Text style={[styles.value, item.valueStyle]}>{item.value}</Text>
-        </View>
-      ))}
+      {items.map((item, index) => {
+        console.log(`InfoCard - item ${index}:`, item);
+        return (
+          <View key={index} style={styles.detailRow}>
+            <Text style={styles.label}>{item.label}:</Text>
+            <Text style={[styles.value, item.valueStyle]}>{item.value || 'לא זמין'}</Text>
+          </View>
+        );
+      })}
     </View>
   );
 };

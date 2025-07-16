@@ -63,7 +63,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>{t.auth.username}</Text>
           <TextInput
-            style={styles.inputContainer}
+            style={styles.input}
             value={user.username}
             onChangeText={(text) => srtUser({ ...user, username: text })}
             placeholder={t.auth.usernamePlaceholder}
@@ -75,7 +75,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>{t.auth.password}</Text>
           <TextInput
-            style={styles.inputContainer}
+            style={styles.input}
             value={user.password}
             onChangeText={(text) => srtUser({ ...user, password: text })}
             placeholder={t.auth.passwordPlaceholder}
