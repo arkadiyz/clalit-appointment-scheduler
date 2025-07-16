@@ -34,14 +34,14 @@ const DoctorCalendarScreen: React.FC<Props> = ({ navigation, route }) => {
   const doctor = getDoctorBySpecialty(specialty);
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
 
-  console.log('DoctorCalendarScreen loaded:');
-  console.log('specialty:', specialty);
-  console.log('doctor found:', doctor);
-  console.log('user:', user);
+  // console.log('DoctorCalendarScreen loaded:');
+  // console.log('specialty:', specialty);
+  // console.log('doctor found:', doctor);
+  // console.log('user:', user);
 
   const availableSlots = doctor?.availableSlots.filter((slot) => slot.isAvailable) || [];
 
-  console.log('availableSlots:', availableSlots);
+  // console.log('availableSlots:', availableSlots);
 
   // קיבוץ התורים לפי תאריכים
   const groupedSlots = availableSlots.reduce((groups: { [key: string]: TimeSlot[] }, slot) => {
@@ -59,10 +59,10 @@ const DoctorCalendarScreen: React.FC<Props> = ({ navigation, route }) => {
   };
 
   const handleBookAppointment = () => {
-    console.log('handleBookAppointment called');
-    console.log('selectedSlot:', selectedSlot);
-    console.log('doctor:', doctor);
-    console.log('user:', user);
+    // console.log('handleBookAppointment called');
+    // console.log('selectedSlot:', selectedSlot);
+    // console.log('doctor:', doctor);
+    // console.log('user:', user);
 
     if (!selectedSlot || !doctor || !user) {
       console.log('Missing data - showing error');
@@ -85,7 +85,7 @@ const DoctorCalendarScreen: React.FC<Props> = ({ navigation, route }) => {
       status: 'active',
     };
 
-    console.log('Appointment created:', appointment);
+    // console.log('Appointment created:', appointment);
     dispatch(bookAppointment(appointment));
     navigation.navigate('AppointmentSummary', { appointment });
   };
