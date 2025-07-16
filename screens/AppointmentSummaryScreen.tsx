@@ -89,8 +89,8 @@ const createStyles = (theme: any, isRTL: boolean) =>
       elevation: 5,
     },
     checkmark: {
-      fontSize: 40,
-      color: theme.colors.surface, // החלפת 'white' בצבע מהנושא
+      fontSize: theme.typography.fontSize.xxl,
+      color: theme.colors.surface,
       fontWeight: theme.typography.fontWeight.bold,
     },
     title: {
@@ -141,7 +141,7 @@ const createStyles = (theme: any, isRTL: boolean) =>
       elevation: 5,
     },
     confirmButtonText: {
-      color: theme.colors.surface, // החלפת 'white' בצבע מהנושא
+      color: theme.colors.surface, 
       fontSize: theme.typography.fontSize.lg,
       fontWeight: theme.typography.fontWeight.bold,
     },

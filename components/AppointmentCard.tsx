@@ -101,10 +101,10 @@ const createStyles = (theme: any, _isRTL: boolean) =>
       backgroundColor: theme.colors.warning,
     },
     cancelButton: {
-      backgroundColor: theme.colors.error, 
+      backgroundColor: theme.colors.error,
     },
     buttonText: {
-      color: theme.colors.surface, 
+      color: theme.colors.surface,
       fontWeight: theme.typography.fontWeight.bold,
       fontSize: theme.typography.fontSize.md,
     },
