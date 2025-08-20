@@ -98,7 +98,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       />
     </SafeAreaProvider>
   );
-};
+};  
 
 const createStyles = (theme: any, isRTL: boolean) =>
   StyleSheet.create({
